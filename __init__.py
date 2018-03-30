@@ -173,9 +173,11 @@ class DynamicValueChallenge(BaseChallenge):
 
         solve_count = Solves.query.join(Teams, Solves.teamid == Teams.id).filter(Solves.chalid==chal.id, Teams.banned==False).count()
 
-        value = (((chal.minimum - chal.initial)/(chal.decay**2)) * (solve_count**2)) + chal.initial
-        value = math.ceil(value)
-
+        value = int(math.ceil(500 * math.exp(-.25 * solve_count)))
+        #value = int(math.ceil(chal.initial * math.exp((chal.decay / (-100)) * (solve_count))))
+        #value = (((chal.minimum - chal.initial)/(chal.decay**2)) * (solve_count**2)) + chal.initial
+        #value = math.ceil(value)
+        #value = 9000
         if value < chal.minimum:
             value = chal.minimum
 
